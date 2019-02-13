@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <title>Class与Style绑定</title>
+</head>
+<body>
+    <!-- 对象语法 -->
+    <!-- 第一种方法 -->
+    <div id="demo01" class="static"
+        v-bind:class="{ active:isActive,'text-danger':hasError}">
+        这是一个对象语法测试
+    </div>
+    <script>
+        var vmClass=new Vue({
+            el:'#demo01',
+            data:{
+                isActive:true,
+                hasError:false
+            }
+        })
+    </script>
+    <!-- 第二种方法 -->
+    <div id="demo02" v-bind:class="classObject">
+        这是第二个对象语法测试
+    </div>
+    <script>
+        var vmClass=new Vue({
+            el:'#demo02',
+            data:{
+                classObject:{
+                    active:true,
+                    'text-danger':false
+                }
+            }
+        })
+    </script>
+    <!-- 第三种方法 -->
+    <div id="demo03" v-bind:class="classObject">
+        这是第三个对象语法测试
+    </div>
+    <script>
+        var vmClass=new Vue({
+            el:'#demo03',
+            data:{
+                isActive:true,
+                error:null
+            },
+            computed:{
+                classObject:function(){
+                    return{
+                        active:this.isActive&&!this.error,
+                        'text-danger':this.error&&type=='fatal',
+                    }
+                }
+            }
+        })
+    </script>
+    <!-- 数组语法 -->
+    <div id="demo04" v-bind:class="[activeClass,errorClass]">
+        这是数组语法的测试
+    </div>
+    <script>
+        var vmClass=new Vue({
+            el:'#demo04',
+            data:{
+                activeClass:'active',
+                errorClass:'text-danger'
+            }
+        })
+    </script>
+</body>
+</html>

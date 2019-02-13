@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>watch</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+</head>
+<body>
+    <div id="watch-example">
+        <p>
+            Ask a yes/no question:
+            <input v-model="question">
+        </p>
+        <p>{{answer}}</p>
+    </div>
+    <script>
+        var watchExampleVM=new Vue({
+            el:'#watch-example',
+            data:{
+                question:'',
+                answer:'I cannot give you an answer until you ask a question!'
+            },
+            watch:{
+                question:function(newQuestion){
+                    this.answer='Waiting for you to stop typing...'
+                    this.getAnswer()
+                }
+            },
+            methods:{
+                getAnswer:_.debounce(
+                    function(){
+                        var vm=this
+                        if(this.question.indexOf('?')===-1){
+                            vm.answer='Questions usually contain a question mark.:-'
+                            return
+                        }
+                        vm.answer='Thinking...'
+                        axios.get("https://yesno.wtf/api")
+                        .then(function(response){
+                            vm.answer=_.capitalize(response.data.answer)
+                        })
+                        .catch(function (error){
+                            vm.answer='Error!Could not reach the API.'+error
+                        } )
+                    },
+                    500
+                )
+            }
+        })
+        //watch和computed的不同：
+        //watch擅长处理一个数据影响多个数据的场景
+        //computed擅长处理一个数据受多个数据影响的场景
+        //watch和computed的相同之处在于：他们都是以Vue的依赖追踪机制为基础的，都是希望
+        //在依赖数据发生改变的时候，被依赖的数据根据预定义好的函数，发生“自动”的变化
+    </script>
+</body>
+</html>

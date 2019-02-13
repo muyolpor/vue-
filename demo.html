@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <title>demo</title>
+</head>
+
+<body>
+    <div id="app">
+        {{message}}
+    </div>
+    <div id="app-2">
+        <span v-bind:title="message">
+            把鼠标悬停在我上面几秒钟，看看我动态绑定的标题!
+        </span>
+    </div>
+    <div id="app-3">
+        <p v-if="seen">Now you see me</p>
+    </div>
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in todos">
+                {{todo.text}}
+            </li>
+        </ol>
+    </div>
+    <div id="app-5">
+        <p>{{message}}</p>
+        <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+    <div id="app-6">
+        <p>{{message}}</p>
+        <input v-model="message">
+    </div>
+    <!-- 自定义组件 -->
+    <div id="app-7">
+        <ol>
+            <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+        </ol>
+    </div>
+    <!-- 计算属性 -->
+    <div id="example">
+        <p>最初的信息："{{message}}"</p>
+        <p>计算属性反转之后的信息："{{reversedMessage}}"</p>
+    </div>
+    
+    <script>
+        var app=new Vue({
+            el:'#app',
+            data:{
+                message:'Hello  Vue!'
+            }
+        })
+        var app2=new Vue({
+            el:'#app-2',
+            data:{
+                message:'当你已加载此页面'+new Date()
+            }
+        })
+        var app3=new Vue({
+            el:'#app-3',
+            data:{
+                seen:true
+            }
+        })
+        var app4=new Vue({
+            el:'#app-4',
+            data:{
+                todos:[
+                    {text:'Learn JavaScript'},
+                    {text:'Learn Vue'},
+                    {text:'Build something awesome'}
+                ]
+            }
+        })
+        var app5=new Vue({
+            el:'#app-5',
+            data:{
+                message:'Hello Vue.js!'
+            },
+            methods:{
+                reverseMessage:function(){
+                    this.message=this.message.split('').reverse().join('')
+                    //把字符串拆成单个字符串相当于单个数组元素，reverse反转后，join再把数组元素连接成一个字符串
+                    //split用于把一个字符串分割成字符串数组
+                    //reverse拥有颠倒数组中的元素
+                    //join用于把数组中的所有元素放入一个字符串
+                }
+            }
+        })
+        var app6=new Vue({
+            el:'#app-6',
+            data:{
+                message:'Hello Vue!'
+            }
+        })
+        Vue.component('todo-item',{//todo-item是定义的组件名称
+            props:['todo'],//props用来接收父组件传过来的值，使用v-bind方法绑定时用到
+            //父传子用props方法
+            //父组件传递子组件，数据在父组件中
+            template:'<li>{{todo.text}}</li>'
+            //子组件使用父组件传递过来的值（子组件传给父组件的值尽量不要更改，引用值类型一定不能更改）
+        })
+        var app7=new Vue({
+            el:'#app-7',
+            data:{
+                groceryList:[//父组件中的数据
+                    {text:'Vegetables'},
+                    {text:'Cheese'},
+                    {text:'Whatever else humans are supposed to eat'}
+                ]
+            }
+        })
+        //计算属性
+        var vm=new Vue({
+            el:'#example',
+            data:{
+                message:'Hello'
+            },
+            computed:{
+                reversedMessage:function(){
+                    return this.message.split('').reverse().join('')
+                }
+            }
+        })
+        //重复，不可取
+        // var vm=new Vue({
+        //     el:'#demo',
+        //     data:{
+        //         firstName:'Foo',
+        //         lastName:'Bar',
+        //         fullName:'Foo Bar'
+        //     },
+        //     watch:{
+        //         firstName:function(val){
+        //             this.fullName=val+' '+this.lastName
+        //         },
+        //         lastName:function(val){
+        //             this.fullName=this.firstName+' '+val
+        //         }
+        //     }
+        // })
+      
+    </script>
+</body>
+
+</html>
