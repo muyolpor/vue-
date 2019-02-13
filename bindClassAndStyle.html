@@ -24,6 +24,7 @@
         })
     </script>
     <!-- 第二种方法 -->
+    <br>
     <div id="demo02" v-bind:class="classObject">
         这是第二个对象语法测试
     </div>
@@ -39,6 +40,7 @@
         })
     </script>
     <!-- 第三种方法 -->
+    <br>
     <div id="demo03" v-bind:class="classObject">
         这是第三个对象语法测试
     </div>
@@ -60,6 +62,7 @@
         })
     </script>
     <!-- 数组语法 -->
+    <br>
     <div id="demo04" v-bind:class="[activeClass,errorClass]">
         这是数组语法的测试
     </div>
@@ -69,6 +72,37 @@
             data:{
                 activeClass:'active',
                 errorClass:'text-danger'
+            }
+        })
+    </script>
+    <!-- 绑定内联样式 -->
+    <!-- 第一种对象语法 -->
+    <br>
+    <div id="demo05" v-bind:style="{color:activeColor,fontSize:fontSize+'px'}">
+        内联样式表的第一种对象测试
+    </div>
+    <script>
+        var vmStyle=new Vue({
+            el:'#demo05',
+            data:{
+                activeColor:'red',
+                fontSize:30
+            }
+        })
+    </script>
+    <!-- 第二种对象语法 -->
+    <br>
+    <div id="demo06" v-bind:style="styleObject">
+        内联样式表的第二种对象测试
+    </div>
+    <script>
+        var vmStyle=new Vue({
+            el:'#demo06',
+            data:{
+                styleObject:{
+                    color:'red',
+                    fontSize:'13px'
+                }
             }
         })
     </script>
