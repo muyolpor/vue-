@@ -8,6 +8,111 @@
     <title>表单控件绑定</title>
 </head>
 <body>
-    
+    <!-- 基本用法 -->
+    <div id="example1">
+        <!-- 文本 -->
+        <input v-model="message1" placeholder="edit me">
+        <p>Message is ： {{ message1 }}</p>
+        <!-- 多行文本 -->
+        <span>Multiline message is:</span>
+        <!-- 
+            white-space规定段落中的文本不换行
+            值：
+            normal:默认。空白会被浏览器忽略
+            pre:空白会被浏览器保留。其行为方式类似HTML中的<pre>标签
+            nowrap:文本不会换行，文本会在同一行上继续，直到遇到<br>标签为止
+            pre-wrap:保留空白符序列，但是正常的进行换行
+            pre-line:合并空白符序列，但是保留换行符
+            inherit:规定应该从父元素继承white-space属性的值
+         -->
+        <p style="white-space:pre">{{ message2 }}</p>
+        <br>
+        <!-- 
+            在文本区域插值(<textarea></textarea>)并不会生效，应用v-model代替
+         -->
+        <textarea v-model="message2" placeholder="add multiple lines"></textarea>
+        <!-- 复选框 -->
+        <br>
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <!-- 
+            label的for属性规定label与那个表单元素绑定，值为label要绑定的元素的id
+         -->
+        <label for="checkbox">{{ checked }}</label>
+        <!-- 多个复选框 -->
+        <br>
+        <input type="checkbox" id="jack" value="jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="john" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+        <!-- 单选按钮 -->
+        <br>
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+        <!-- 选择列表 -->
+        <!-- 单选列表 -->
+        <br>
+        <select v-model="selected">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br>
+        <span>Selected: {{ selected }}</span>
+        <!-- 多选列表（绑定到一个数组） -->
+        <br>
+        <select v-model="selectedMultiple" multiple>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br>
+        <span>Selected: {{ selectedMultiple }}</span>
+    </div>
+    <script>
+        new Vue({
+            el:'#example1',
+            data:{
+                message1:'',
+                message2:'',
+                checked:'',
+                checkedNames:[],
+                picked:'',
+                selected:'',
+                selectedMultiple:[]
+            }
+        })
+    </script>
+    <!-- 动态选项，用v-for渲染 -->
+    <div id="selectByDynamic">
+        <select v-model="selected">
+                <option v-for="option in options" v-bind:value="option.value">
+                    {{ option.text }}
+                </option>
+            </select>
+            <br>
+            <span>Selected:{{ selected }}</span>
+    </div>
+    <script>
+        new Vue({
+            el:'#selectByDynamic',
+            data:{
+                selected:'A',
+                options:[
+                    { text:'One',value:'A' },
+                    { text:'Two',value:'B' },
+                    { text:'Three',value:'C' }
+                ]
+            }
+        })
+    </script>
 </body>
 </html>
