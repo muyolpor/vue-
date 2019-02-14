@@ -106,5 +106,27 @@
             }
         })
     </script>
+    <!-- 绑定内联样式的数组语法 -->
+    <br>
+    <div id="demo07" v-bind:style="[baseStyles,overridingStyles]">
+        这是绑定内联样式的数组语法
+    </div>
+    <script>
+        var vmStyle=new Vue({
+            el:'#demo07',
+            data:{
+                baseStyles:{
+                    color:'red',
+                    fontSize:'13px'
+                },
+                overridingStyles:{
+                    color:'gray',
+                    fontSize:'20px',
+                    backgroundColor:'yellow'
+                }
+            }
+        })
+        //结果：后一个样式会覆盖前一个样式
+    </script>
 </body>
 </html>
