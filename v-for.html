@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <title>v-for</title>
+</head>
+<body>
+    <!-- v-for基本用法 -->
+    <ul id="example-1">
+        <!-- items是源数据数组，item是数组元素迭代的别名 -->
+        <li v-for="item in items">
+            {{ item.message }}
+        </li>
+    </ul>
+    <script>
+        var example1 = new Vue({
+            el:'#example-1',
+            data:{
+                items:[
+                    { message:'foo' },
+                    { message:'Bar' }
+                ]
+            }
+        })
+    </script>
+    <!-- v-for的第二种用法 -->
+    <!-- 在v-for中，拥有对父作用域属性的完全访问权限
+        v-for支持一个可选的第二个参数为当前项的索引
+    -->
+    <ul id="example-2">
+        <li v-for="(item,index) in items">
+            <!-- 可以用of代替in -->
+            {{ parentMessage }} - {{ index }} - {{ item.message }}
+        </li>
+    </ul>
+    <script>
+        var example2 = new Vue({
+            el:'#example-2',
+            data:{
+                parentMessage:'Parent',
+                items:[
+                    { message:'Foo' },
+                    { message:'Bar' }
+                ]
+            }
+        })
+    </script>
+    <!-- 对象迭代v-for -->
+    <ul id="repeat-object" class="demo">
+        <li v-for="value in object">
+            {{ value }}
+        </li>
+        <!-- 提供第二个参数为键名 -->
+        <br>
+        <div v-for="(value,key) in object">
+            {{ key }} : {{ value }}
+        </div>
+        <!-- 提供第三个参数为索引 -->
+        <br>
+        <div v-for="(value,key,index) in object">
+            {{ index }}. {{ key }} : {{ value }}
+        </div>
+    </ul>
+    <script>
+        new Vue({
+            el:'#repeat-object',
+            data:{
+                object:{
+                    FirstName:'John',
+                    LastName:'Doe',
+                    Age:30
+                }
+            }
+        })
+    </script>
+    <!-- 整数迭代v-for -->
+    <!-- 将多次重复模板 -->
+    <br>
+    <div id="integer-object">
+        <span v-for="n in number">{{ n }}</span>
+        <!-- 结果为12345678910 -->
+    </div>
+    <script>
+        new Vue({
+            el:'#integer-object',
+            data:{
+                number:10
+            }
+        })
+    </script>
+    <!-- 组件和v-for -->
+    <br>
+    <div id="todo-list-example">
+        <input v-model="newTodoText" 
+            v-on:keyup.enter="addNewTodo" 
+            placeholder="Add a todo">
+        <ul>
+            <li is="todo-item"
+                v-for="(todo,index) in todos" 
+                v-bind:title="todo" 
+                v-on:remove="todos.splice(index,1)"></li>
+        </ul>
+    </div>
+    <script>
+        Vue.component('todo-item',{
+            template:'<li>{{ title }}<button v-on:click="$emit(\'remove\')">X</button></li>',
+            props:['title']
+        })
+        new Vue({
+            el:'#todo-list-example',
+            data:{
+                newTodoText:'',
+                todos:[
+                    'Do the dishes',
+                    'Take out the trash',
+                    'Mow the lawn'
+                ]
+            },
+            methods:{
+                addNewTodo:function(){
+                    this.todos.push(this.newTodoText)
+                    this.newTodoText = ''
+                }
+            }
+        })
+    </script>
+    <!-- 显示过滤/排序结果 -->
+    <!-- 第一种方法 -->
+    <div id="filterComputed">
+        <li v-for="n in evenNumbers">{{ n }}</li>
+    </div>
+    <script>
+        new Vue({
+            el:'#filterComputed',
+            data:{
+                numbers:[ 1, 2, 3, 4, 5]
+            },
+            computed:{
+                evenNumbers:function(){
+                    return this.numbers.filter(function (number){
+                        return number % 2 ===0
+                    })
+                }
+            }
+        })
+    </script>
+    <!-- 第二种方法 -->
+    <br>
+    <div id="filterMethods">
+        <li v-for="n in even(numbers)">{{ n }}</li>
+    </div>
+    <script>
+        new Vue({
+            el:'#filterMethods',
+            data:{
+                numbers:[ 1, 2, 3, 4, 5]
+            },
+            methods:{
+                even:function(numbers){
+                    return numbers.filter(function (number){
+                        return number % 2 ===0
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
