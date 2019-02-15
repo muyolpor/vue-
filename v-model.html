@@ -114,5 +114,17 @@
             }
         })
     </script>
+    <!-- 
+        v-model的修饰符
+        .lazy：在默认情况下，v-model在input事件中同步输入框的数据与值，
+               添加修饰符lazy，从而转变为在change事件中同步
+                <input v-model.lazy="msg">
+        .number：自动将用户的输入值转为Number类型
+                 （如果原值的转换结果为NaN则返回原值）
+                 <input v-model.number="age" type="number">
+                 注：在type="number"时HTML中输入的值也总是会返回字符串类型
+        .trim：自动过滤用户输入的首尾空格
+               <input v-model.trim="msg">
+     -->
 </body>
 </html>
